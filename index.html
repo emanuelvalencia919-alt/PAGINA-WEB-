@@ -3,63 +3,208 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Maquetación CSS</title>
-
-    <!-- AQUI SE CONECTA EL CSS -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cuidado animal | Alimentación y consejos</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-<header>
-    <h1>Maquetación con CSS</h1>
-</header>
+
 <nav>
     <ul>
-        <li><a href="#">Inicio</a></li>
-        <li><a href="#">Contenido</a></li>
-        <li><a href="#">Requisitos</a></li>
-        <li><a href="#">Lenguajes</a></li>
-        <li><a href="#">Frameworks</a></li>
-        <li><a href="#">Proyectos</a></li>
+        <li><a href="#inicio" class="activo">Inicio</a></li>
+        <li><a href="#calculadora">Calculadora</a></li>
+        <li><a href="#alimentos">Alimentación</a></li>
+        <li><a href="#cuidados">Cuidados</a></li>
+        <li><a href="#consejos">Consejos</a></li>
     </ul>
 </nav>
 
-<div class="clearfix"></div>
-<section id="content">
-<img src="images (1).jpg">
-    <article class="article">
-        <h2>Título del artículo</h2>
-        <p>Texto del artículo</p>
-    </article>
+<header id="inicio">
+    <h1>Cuidado animal</h1>
+    <p>Qué darle de comer, cuánto y cómo cuidarlo</p>
+</header>
 
-    <article class="article">
-        <h2>Título del artículo</h2>
-        <p>Texto del artículo</p>
-    </article>
-
-    <article class="article">
-        <h2>Título del artículo</h2>
-        <p>Texto del artículo</p>
-    </article>
-<img src="descarga.png">
-
+<!-- PORTADA ANIMADA: pon tus fotos en la carpeta images/ con estos nombres -->
+<section class="hero" aria-label="Galería de animales">
+    <div class="slide on" style="--fondo: linear-gradient(135deg,#8f0f1b,#000)">
+        <img src="images/perro.jpg" alt="Perro" onerror="this.remove()">
+        <span class="emoji">🐶</span>
+        <p class="leyenda">Cada mascota necesita su propia porción</p>
+    </div>
+    <div class="slide" style="--fondo: linear-gradient(135deg,#000,#e11d2e)">
+        <img src="images/gato.jpg" alt="Gato" onerror="this.remove()">
+        <span class="emoji">🐱</span>
+        <p class="leyenda">Agua fresca todos los días</p>
+    </div>
+    <div class="slide" style="--fondo: linear-gradient(135deg,#222,#8f0f1b)">
+        <img src="images/naturaleza.jpg" alt="Naturaleza" onerror="this.remove()">
+        <span class="emoji">🌿</span>
+        <p class="leyenda">Ejercicio y aire libre para vivir mejor</p>
+    </div>
+    <button class="flecha izq" aria-label="Anterior">&#10094;</button>
+    <button class="flecha der" aria-label="Siguiente">&#10095;</button>
+    <div class="puntos"></div>
+    <span class="paw" style="--x:8%;--d:0s">🐾</span>
+    <span class="paw" style="--x:28%;--d:2s">🐾</span>
+    <span class="paw" style="--x:52%;--d:4s">🐾</span>
+    <span class="paw" style="--x:74%;--d:1s">🐾</span>
+    <span class="paw" style="--x:92%;--d:3s">🐾</span>
 </section>
-<aside>
-    <h2>Barra lateral</h2>
-    <form>
-        <input type="text">
-        <input type="submit" value="Buscar">
-    </form>
-</aside>
 
-<div class="clearfix"></div>
+<div class="main">
+    <section id="content">
 
-<img src="samsum.jpg">
+        <!-- CALCULADORA -->
+        <article class="article reveal" id="calculadora">
+            <h2>Calculadora de alimento</h2>
+            <p>Calcula la porción diaria de croquetas (alimento seco) según tu mascota.</p>
+            <form id="formCalc" class="calc">
+                <label>Animal
+                    <select id="especie">
+                        <option value="perro">Perro</option>
+                        <option value="gato">Gato</option>
+                    </select>
+                </label>
+                <label>Peso (kg)
+                    <input type="number" id="peso" min="0.5" max="90" step="0.1" placeholder="Ej: 8.5" required>
+                </label>
+                <label>Edad
+                    <select id="edad">
+                        <option value="cachorro">Cachorro (menos de 1 año)</option>
+                        <option value="adulto" selected>Adulto</option>
+                        <option value="senior">Senior (más de 7 años)</option>
+                    </select>
+                </label>
+                <label>Actividad
+                    <select id="actividad">
+                        <option value="baja">Baja</option>
+                        <option value="normal" selected>Normal</option>
+                        <option value="alta">Alta</option>
+                    </select>
+                </label>
+                <button type="submit" class="btn">Calcular porción</button>
+            </form>
+            <div id="resultado" class="resultado" aria-live="polite"></div>
+        </article>
+
+        <!-- ALIMENTACIÓN CON PESTAÑAS Y LISTAS DESPLEGABLES -->
+        <article class="article reveal" id="alimentos">
+            <h2>Guía de alimentación</h2>
+            <div class="tabs" role="tablist">
+                <button class="tab on" data-panel="perros" role="tab">🐶 Perros</button>
+                <button class="tab" data-panel="gatos" role="tab">🐱 Gatos</button>
+            </div>
+
+            <div class="panel on" id="perros">
+                <div class="acc-item open">
+                    <button class="acc">Qué darle<span class="flecha-acc">&#9660;</span></button>
+                    <div class="acc-body"><div class="acc-inner"><ul>
+                        <li>Croquetas de buena calidad según su edad</li>
+                        <li>Pollo o pavo cocido, sin piel ni hueso</li>
+                        <li>Arroz, zanahoria y calabaza cocidas</li>
+                        <li>Agua limpia siempre disponible</li>
+                    </ul></div></div>
+                </div>
+                <div class="acc-item">
+                    <button class="acc">Qué evitar<span class="flecha-acc">&#9660;</span></button>
+                    <div class="acc-body"><div class="acc-inner"><ul>
+                        <li>Chocolate, uvas y pasas</li>
+                        <li>Cebolla, ajo y aguacate</li>
+                        <li>Huesos cocidos y alimentos con xilitol</li>
+                        <li>Comida muy grasosa o con mucha sal</li>
+                    </ul></div></div>
+                </div>
+                <div class="acc-item">
+                    <button class="acc">Horarios<span class="flecha-acc">&#9660;</span></button>
+                    <div class="acc-body"><div class="acc-inner"><ul>
+                        <li>Cachorros: 3 a 4 comidas al día</li>
+                        <li>Adultos: 2 comidas, mañana y tarde</li>
+                        <li>Evita ejercicio intenso justo después de comer</li>
+                    </ul></div></div>
+                </div>
+            </div>
+
+            <div class="panel" id="gatos">
+                <div class="acc-item open">
+                    <button class="acc">Qué darle<span class="flecha-acc">&#9660;</span></button>
+                    <div class="acc-body"><div class="acc-inner"><ul>
+                        <li>Alimento para gatos (necesitan taurina)</li>
+                        <li>Comida húmeda varias veces por semana</li>
+                        <li>Pollo o pescado cocido, sin espinas ni sal</li>
+                        <li>Agua fresca; una fuente los anima a beber</li>
+                    </ul></div></div>
+                </div>
+                <div class="acc-item">
+                    <button class="acc">Qué evitar<span class="flecha-acc">&#9660;</span></button>
+                    <div class="acc-body"><div class="acc-inner"><ul>
+                        <li>Cebolla, ajo, chocolate y uvas</li>
+                        <li>Leche de vaca (muchos no la toleran)</li>
+                        <li>Comida de perro como dieta fija</li>
+                        <li>Huesos cocidos</li>
+                    </ul></div></div>
+                </div>
+                <div class="acc-item">
+                    <button class="acc">Horarios<span class="flecha-acc">&#9660;</span></button>
+                    <div class="acc-body"><div class="acc-inner"><ul>
+                        <li>Gatitos: 3 a 4 comidas al día</li>
+                        <li>Adultos: 2 a 3 porciones pequeñas</li>
+                        <li>Mantén el comedero lejos de su arenero</li>
+                    </ul></div></div>
+                </div>
+            </div>
+        </article>
+
+        <!-- CUIDADOS -->
+        <article class="article reveal" id="cuidados">
+            <h2>Cuidados básicos</h2>
+            <div class="acc-item">
+                <button class="acc">Salud y vacunas<span class="flecha-acc">&#9660;</span></button>
+                <div class="acc-body"><div class="acc-inner"><ul>
+                    <li>Visita al veterinario al menos una vez al año</li>
+                    <li>Vacunas y desparasitación al día</li>
+                    <li>Esterilización según indique tu veterinario</li>
+                </ul></div></div>
+            </div>
+            <div class="acc-item">
+                <button class="acc">Higiene<span class="flecha-acc">&#9660;</span></button>
+                <div class="acc-body"><div class="acc-inner"><ul>
+                    <li>Cepillado semanal del pelo</li>
+                    <li>Limpieza de dientes y revisión de oídos</li>
+                    <li>Baño solo cuando sea necesario</li>
+                </ul></div></div>
+            </div>
+            <div class="acc-item">
+                <button class="acc">Ejercicio y juego<span class="flecha-acc">&#9660;</span></button>
+                <div class="acc-body"><div class="acc-inner"><ul>
+                    <li>Perros: paseos diarios y juegos</li>
+                    <li>Gatos: rascadores, juguetes y sitios altos</li>
+                </ul></div></div>
+            </div>
+            <div class="acc-item alerta">
+                <button class="acc">Señales de alerta: ve al veterinario<span class="flecha-acc">&#9660;</span></button>
+                <div class="acc-body"><div class="acc-inner"><ul>
+                    <li>No come ni bebe por más de 24 horas</li>
+                    <li>Vómito o diarrea repetidos, o con sangre</li>
+                    <li>Decaimiento fuerte o dificultad para respirar</li>
+                </ul></div></div>
+            </div>
+        </article>
+
+    </section>
+
+    <aside id="consejos">
+        <h2>Consejo del día</h2>
+        <p id="consejo">Cargando...</p>
+        <button class="btn btn-claro" id="otroConsejo">Otro consejo</button>
+    </aside>
+</div>
 
 <footer>
-    Maquetación con CSS
+    Cuidado animal · Esta información es orientativa; consulta siempre a tu veterinario.
 </footer>
-<img src="images.jpg">
-</body>
-</html>
 
+<script src="script.js"></script>
+</body>
+
+</html>

@@ -1,4 +1,3 @@
-[script.js](https://github.com/user-attachments/files/34854749/script.js)
 /* ===== GALERÍA DE PORTADA ===== */
 const slides = document.querySelectorAll('.slide');
 const puntos = document.querySelector('.puntos');
@@ -22,19 +21,89 @@ document.querySelector('.flecha.izq').addEventListener('click', () => { mostrar(
 document.querySelector('.flecha.der').addEventListener('click', () => { mostrar(actual + 1); reiniciar(); });
 mostrar(0); reiniciar();
 
-/* ===== LISTAS DESPLEGABLES ===== */
-document.querySelectorAll('.acc').forEach(btn => {
-    btn.addEventListener('click', () => btn.parentElement.classList.toggle('open'));
+/* ===== DATOS: UN ANIMAL POR PESTAÑA ===== */
+const animales = [
+  { id: 'perros', n: 'Perros', e: '🐶', i: [
+    ['Qué darle', ['Croquetas de buena calidad según su edad', 'Pollo o pavo cocido, sin piel ni hueso', 'Arroz, zanahoria y calabaza cocidas', 'Agua limpia siempre disponible']],
+    ['Porción y horarios', ['Usa la calculadora de arriba para la cantidad', 'Cachorros: 3 a 4 comidas; adultos: 2 comidas', 'Evita ejercicio intenso justo después de comer']],
+    ['Qué evitar', ['Chocolate, uvas y pasas', 'Cebolla, ajo y aguacate', 'Huesos cocidos y alimentos con xilitol']],
+    ['Cuidados', ['Paseos diarios y juegos', 'Vacunas y desparasitación al día', 'Cepillado semanal y revisión de oídos y dientes']]
+  ]},
+  { id: 'gatos', n: 'Gatos', e: '🐱', i: [
+    ['Qué darle', ['Alimento para gatos (necesitan taurina)', 'Comida húmeda varias veces por semana', 'Pollo o pescado cocido, sin espinas ni sal', 'Agua fresca; una fuente los anima a beber']],
+    ['Porción y horarios', ['Usa la calculadora de arriba para la cantidad', 'Varias porciones pequeñas al día (2 a 3)', 'Comedero lejos del arenero']],
+    ['Qué evitar', ['Cebolla, ajo, chocolate y uvas', 'Leche de vaca (muchos no la toleran)', 'Comida de perro como dieta fija']],
+    ['Cuidados', ['Rascadores, juguetes y sitios altos', 'Arenero limpio todos los días', 'Vacunas, desparasitación y revisión anual']]
+  ]},
+  { id: 'conejos', n: 'Conejos', e: '🐰', i: [
+    ['Qué darle', ['Heno de buena calidad siempre disponible (es la base)', 'Verduras de hoja verde frescas a diario', 'Pellets para conejo en poca cantidad', 'Agua limpia']],
+    ['Porción y horarios', ['Pellets: 1 a 2 cucharadas por kg de peso al día', 'Heno ilimitado', 'Fruta solo como premio, en trozos pequeños']],
+    ['Qué evitar', ['Lechuga iceberg, papa, cebolla y ajo', 'Chocolate, pan, galletas y dulces', 'Zanahoria en exceso (tiene mucho azúcar)']],
+    ['Cuidados', ['Sus dientes no dejan de crecer: dale heno y madera para roer', 'Espacio amplio para correr cada día', 'No bañarlo en agua; vacunas y revisión veterinaria']]
+  ]},
+  { id: 'hamsters', n: 'Hámsters', e: '🐹', i: [
+    ['Qué darle', ['Mezcla de semillas y pellets para hámster', 'Verduras en trozos pequeños: zanahoria, brócoli, pepino', 'Proteína ocasional: huevo cocido o gusanos de harina', 'Agua fresca en bebedero']],
+    ['Porción y horarios', ['1 a 2 cucharaditas de mezcla al día', 'Dar la comida al atardecer, cuando se activan', 'Verdura fresca 1 o 2 veces por semana']],
+    ['Qué evitar', ['Cítricos, cebolla, ajo y chocolate', 'Dulces y comida salada', 'Semillas de manzana y almendras amargas']],
+    ['Cuidados', ['Rueda del tamaño adecuado y silenciosa', 'Sustrato profundo para que cave', 'Limpieza parcial cada semana; el hámster sirio vive solo']]
+  ]},
+  { id: 'cobayas', n: 'Cobayas', e: '🐹', i: [
+    ['Qué darle', ['Heno siempre disponible', 'Pellets para cobayo (no de conejo)', 'Verduras con vitamina C: pimentón, perejil, cilantro', 'Agua fresca']],
+    ['Porción y horarios', ['Pellets: unas 2 cucharadas al día', 'Aproximadamente 1 taza de verduras frescas al día', 'Repartir en la mañana y en la tarde']],
+    ['Qué evitar', ['Chocolate, cebolla, ajo y papa cruda', 'Lácteos y comida humana procesada', 'Comida de conejo: no tiene la vitamina C que necesitan']],
+    ['Cuidados', ['No fabrican vitamina C, hay que dársela en la dieta', 'Viven mejor en pareja', 'Jaula amplia, uñas cortas y revisión de dientes']]
+  ]},
+  { id: 'aves', n: 'Aves', e: '🦜', i: [
+    ['Qué darle', ['Mezcla de semillas o pellets según la especie', 'Verduras de hoja y fruta fresca', 'Hueso de sepia para el calcio', 'Agua limpia todos los días']],
+    ['Porción y horarios', ['Periquito: 1 a 2 cucharaditas de semillas al día', 'Canario: alrededor de 1 cucharadita al día', 'Verdura fresca a diario en cantidad pequeña']],
+    ['Qué evitar', ['Aguacate (es tóxico para las aves)', 'Chocolate, cafeína, alcohol, sal y cebolla', 'Sartenes antiadherentes en la cocina: sus vapores son peligrosos']],
+    ['Cuidados', ['Jaula amplia, lejos de corrientes de aire', 'Tiempo fuera de la jaula y juguetes', 'Taparla de noche para que descanse; si pasa mucho tiempo esponjada, ve al veterinario']]
+  ]},
+  { id: 'peces', n: 'Peces', e: '🐠', i: [
+    ['Qué darle', ['Hojuelas o gránulos para su especie', 'Alimento congelado ocasional, como artemia', 'Vegetales para las especies herbívoras']],
+    ['Porción y horarios', ['Solo lo que se coman en 2 minutos', '1 a 2 veces al día', 'Es mejor quedarse corto que pasarse']],
+    ['Qué evitar', ['Pan y comida humana', 'Sobrealimentar: ensucia y daña el agua', 'Mezclar especies que no son compatibles']],
+    ['Cuidados', ['Cambiar 20 a 30% del agua cada semana', 'Filtro y temperatura estables', 'Usar acondicionador de agua y no sobrepoblar el acuario']]
+  ]},
+  { id: 'tortugas', n: 'Tortugas', e: '🐢', i: [
+    ['Qué darle', ['Acuáticas: pellets para tortuga, hojas verdes y algo de proteína', 'Terrestres: hojas verdes, verduras y flores comestibles', 'Calcio (sepia o suplemento)']],
+    ['Porción y horarios', ['Juveniles: todos los días', 'Adultas: cada 2 días', 'Una porción del tamaño de su cabeza']],
+    ['Qué evitar', ['Carne cruda y comida de perro o gato', 'Lechuga iceberg y alimentos procesados', 'Mucha fruta (solo como premio)']],
+    ['Cuidados', ['Lámpara UVB y zona caliente para tomar sol', 'Agua limpia y espacio amplio', 'Lavarse las manos después de tocarla: pueden portar salmonela']]
+  ]}
+];
+
+const tabsBox = document.getElementById('tabs');
+const panelesBox = document.getElementById('paneles');
+animales.forEach((a, k) => {
+    const t = document.createElement('button');
+    t.className = 'tab' + (k === 0 ? ' on' : '');
+    t.dataset.panel = a.id;
+    t.setAttribute('role', 'tab');
+    t.textContent = a.e + ' ' + a.n;
+    tabsBox.appendChild(t);
+
+    const p = document.createElement('div');
+    p.className = 'panel' + (k === 0 ? ' on' : '');
+    p.id = a.id;
+    p.innerHTML = a.i.map((s, n) => `<div class="acc-item${n === 0 ? ' open' : ''}">
+        <button class="acc">${s[0]}<span class="flecha-acc">&#9660;</span></button>
+        <div class="acc-body"><div class="acc-inner"><ul>${s[1].map(x => `<li>${x}</li>`).join('')}</ul></div></div></div>`).join('');
+    panelesBox.appendChild(p);
 });
 
-/* ===== PESTAÑAS ===== */
-document.querySelectorAll('.tab').forEach(tab => {
-    tab.addEventListener('click', () => {
+/* ===== LISTAS DESPLEGABLES Y PESTAÑAS ===== */
+document.addEventListener('click', e => {
+    const acc = e.target.closest('.acc');
+    if (acc) acc.parentElement.classList.toggle('open');
+
+    const tab = e.target.closest('.tab');
+    if (tab) {
         document.querySelectorAll('.tab').forEach(t => t.classList.remove('on'));
         document.querySelectorAll('.panel').forEach(p => p.classList.remove('on'));
         tab.classList.add('on');
         document.getElementById(tab.dataset.panel).classList.add('on');
-    });
+    }
 });
 
 /* ===== APARECER AL HACER SCROLL + MENÚ ACTIVO ===== */

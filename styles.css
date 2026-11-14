@@ -180,9 +180,9 @@ input:focus, select:focus { border-color: var(--rojo); box-shadow: 0 0 0 3px rgb
 .res-caja small { display: block; color: var(--suave); margin-top: 10px; }
 
 /* ===== PESTAÑAS ===== */
-.tabs { display: flex; gap: 8px; margin: 10px 0 16px; }
+.tabs { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 16px; }
 .tab {
-    flex: 1; padding: 12px; border: 2px solid var(--linea); border-radius: 4px;
+    flex: 1 1 110px; padding: 12px 8px; border: 2px solid var(--linea); border-radius: 4px;
     background: var(--negro); color: var(--texto); font-size: 16px; font-weight: 600; cursor: pointer;
     transition: background .25s, border-color .25s, transform .15s;
 }

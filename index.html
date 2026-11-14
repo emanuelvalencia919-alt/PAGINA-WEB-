@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Cuidado animal | Alimentación y consejos</title>
     <link rel="stylesheet" href="styles.css">
+    <script>document.documentElement.classList.add("js");</script>
 </head>
 
 <body>
@@ -145,6 +146,14 @@
 </footer>
 
 <script src="script.js"></script>
+<script>
+window.addEventListener("load", function () {
+    var p = document.getElementById("paneles");
+    if (p && !p.children.length) {
+        p.innerHTML = '<p style="color:#ff4d5a;font-weight:700">No se cargó script.js. Guárdalo en la misma carpeta que index.html, con ese nombre exacto, y recarga con Ctrl+F5.</p>';
+    }
+});
+</script>
 </body>
 
 </html>

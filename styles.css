@@ -144,8 +144,8 @@ header p { color: var(--suave); margin-top: 6px; }
 .article h2 { color: #fff; margin-bottom: 8px; }
 .article p { margin-bottom: 14px; }
 
-.reveal { opacity: 0; transform: translateY(30px); transition: opacity .7s, transform .7s; }
-.reveal.visible { opacity: 1; transform: none; }
+.js .reveal { opacity: 0; transform: translateY(30px); transition: opacity .7s, transform .7s; }
+.js .reveal.visible { opacity: 1; transform: none; }
 
 /* ===== FORMULARIO / BOTONES ===== */
 .calc { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; align-items: end; }
@@ -246,6 +246,6 @@ footer {
 /* ===== ACCESIBILIDAD: sin movimiento si el usuario lo pide ===== */
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation: none !important; transition: none !important; }
-    .reveal { opacity: 1; transform: none; }
+    .js .reveal { opacity: 1; transform: none; }
     .paw { display: none; }
 }

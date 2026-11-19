@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Cuidado animal | Alimentación y consejos</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <script>document.documentElement.classList.add("js");</script>
 </head>
 
@@ -29,17 +29,17 @@
 <!-- PORTADA ANIMADA: pon tus fotos en la carpeta images/ con estos nombres -->
 <section class="hero" aria-label="Galería de animales">
     <div class="slide on" style="--fondo: linear-gradient(135deg,#8f0f1b,#000)">
-        <img src="images/perro.jpg" alt="Perro" onerror="this.remove()">
+        <img src="{{ url_for('static', filename='images/perro.jpg') }}" alt="Perro" onerror="this.remove()">
         <span class="emoji">🐶</span>
         <p class="leyenda">Cada mascota necesita su propia porción</p>
     </div>
     <div class="slide" style="--fondo: linear-gradient(135deg,#000,#e11d2e)">
-        <img src="images/gato.jpg" alt="Gato" onerror="this.remove()">
+        <img src="{{ url_for('static', filename='images/gato.jpg') }}" alt="Gato" onerror="this.remove()">
         <span class="emoji">🐱</span>
         <p class="leyenda">Agua fresca todos los días</p>
     </div>
     <div class="slide" style="--fondo: linear-gradient(135deg,#222,#8f0f1b)">
-        <img src="images/naturaleza.jpg" alt="Naturaleza" onerror="this.remove()">
+        <img src="{{ url_for('static', filename='images/naturaleza.jpg') }}" alt="Naturaleza" onerror="this.remove()">
         <span class="emoji">🌿</span>
         <p class="leyenda">Ejercicio y aire libre para vivir mejor</p>
     </div>
@@ -59,7 +59,7 @@
         <!-- CALCULADORA -->
         <article class="article reveal" id="calculadora">
             <h2>Calculadora de alimento</h2>
-            <p>Calcula la porción diaria de croquetas para perros y gatos. Para los demás animales, mira la porción en la guía de alimentación más abajo.</p>
+            <p>Calcula la porción diaria de croquetas para perros y gatos (el cálculo lo hace Python). Para los demás animales, mira la porción en la guía de alimentación más abajo.</p>
             <form id="formCalc" class="calc">
                 <label>Animal
                     <select id="especie">
@@ -92,8 +92,24 @@
         <!-- ALIMENTACIÓN CON PESTAÑAS Y LISTAS DESPLEGABLES -->
         <article class="article reveal" id="alimentos">
             <h2>Guía de alimentación por animal</h2>
-            <div class="tabs" id="tabs" role="tablist"></div>
-            <div id="paneles"></div>
+            <div class="tabs" id="tabs" role="tablist">
+                {% for a in animales %}<button class="tab{{ ' on' if loop.first }}" data-panel="{{ a.id }}" role="tab">{{ a.emoji }} {{ a.nombre }}</button>
+                {% endfor %}
+            </div>
+            <div id="paneles">
+            {% for a in animales %}
+                <div class="panel{{ ' on' if loop.first }}" id="{{ a.id }}">
+                {% for titulo, items in a.secciones %}
+                    <div class="acc-item{{ ' open' if loop.first }}">
+                        <button class="acc">{{ titulo }}<span class="flecha-acc">&#9660;</span></button>
+                        <div class="acc-body"><div class="acc-inner"><ul>
+                            {% for x in items %}<li>{{ x }}</li>{% endfor %}
+                        </ul></div></div>
+                    </div>
+                {% endfor %}
+                </div>
+            {% endfor %}
+            </div>
         </article>
 
         <!-- CUIDADOS -->
@@ -145,15 +161,9 @@
     Cuidado animal · Esta información es orientativa; consulta siempre a tu veterinario.
 </footer>
 
-<script src="script.js"></script>
-<script>
-window.addEventListener("load", function () {
-    var p = document.getElementById("paneles");
-    if (p && !p.children.length) {
-        p.innerHTML = '<p style="color:#ff4d5a;font-weight:700">No se cargó script.js. Guárdalo en la misma carpeta que index.html, con ese nombre exacto, y recarga con Ctrl+F5.</p>';
-    }
-});
-</script>
+<script>const CONSEJOS = {{ consejos|tojson }};</script>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
 </body>
 
 </html>
